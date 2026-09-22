@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
-import 'package:mona/i18n/helpers/administration_route_l10n.dart';
-import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/medication_schedule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/constants/dimensions.dart';
 import 'package:mona/ui/views/home/take_medication_page.dart';
@@ -55,11 +54,6 @@ class ChooseScheduleTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final String subtitle =
-        "${schedule.dose} ${schedule.molecule.localizedUnit(schedule.dosingBasis)} • "
-        "${schedule.molecule.localizedNameWithEster(schedule.ester)} • "
-        "${schedule.administrationRoute.localizedName}";
-
     return ListTile(
       leading: CircleAvatar(
         child: Icon(schedule.administrationRoute.icon),
@@ -69,7 +63,7 @@ class ChooseScheduleTile extends StatelessWidget {
         style: theme.textTheme.titleMedium,
       ),
       subtitle: Text(
-        subtitle,
+        schedule.localizedSummary,
         style: theme.textTheme.bodyMedium,
       ),
     );

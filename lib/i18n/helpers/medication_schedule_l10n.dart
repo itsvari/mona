@@ -1,3 +1,5 @@
+import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
@@ -7,10 +9,19 @@ import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 
 extension MedicationScheduleL10n on MedicationSchedule {
-  String get localizedSummary =>
-      '$dose ${molecule.localizedUnit(dosingBasis)} • '
+  String get localizedSummary => '${localizedDoseAt(null)} • '
       '${molecule.localizedNameWithEster(ester)} • '
       '${administrationRoute.localizedName}';
+
+  String localizedDoseAt(TimeOfDay? time) {
+    final amount = doseAt(time);
+    final strength = unitDose;
+    final doseLabel = '$amount ${molecule.localizedUnit(dosingBasis)}';
+    if (strength == null) return doseLabel;
+    final quantity = (amount.toRational() / strength.toRational())
+        .toDecimal(scaleOnInfinitePrecision: 3);
+    return '$quantity ${administrationRoute.localizedUnit(quantity.toDouble())} ($doseLabel)';
+  }
 
   String get localizedFrequency {
     return switch (scheduling) {

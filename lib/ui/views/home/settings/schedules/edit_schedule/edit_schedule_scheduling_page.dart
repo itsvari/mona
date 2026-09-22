@@ -1,13 +1,19 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:m3e_core/m3e_core.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:mona/data/model/medication_schedule.dart';
+import 'package:mona/data/model/scheduled_dose.dart';
 import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
+import 'package:mona/i18n/helpers/administration_route_l10n.dart';
+import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
+import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
+import 'package:mona/ui/widgets/scheduled_dose_dialog.dart';
 import 'package:mona/ui/widgets/scheduling_type_picker.dart';
 import 'package:mona/ui/widgets/time_list_card.dart';
 import 'package:mona/ui/widgets/tinted_switch_tile.dart';
@@ -34,6 +40,7 @@ class _EditScheduleSchedulingPageState
   late TextEditingController _monthlyDayController;
   late TextEditingController _monthlyIntervalController;
   final List<TimeOfDay> _intakeOrNotificationTimes = [];
+  final Map<TimeOfDay, Decimal> _doseOverrides = {};
   bool _dailyNotify = true;
   bool _anchorToLastIntake = false;
   final List<int> _weeklyDays = [];
@@ -95,9 +102,47 @@ class _EditScheduleSchedulingPageState
     if (isDuplicate) return;
 
     setState(() {
+      final dose = _doseOverrides.remove(current);
+      if (dose != null) _doseOverrides[picked] = dose;
       _intakeOrNotificationTimes[index] = picked;
       _sortTimes();
     });
+  }
+
+  List<ScheduledDose> get _savedDoseOverrides =>
+      _type == SchedulingType.asNeeded
+          ? []
+          : [
+              for (final time in _intakeOrNotificationTimes)
+                if (_doseOverrides[time] case final dose?)
+                  ScheduledDose(time: time, dose: dose)
+            ];
+
+  String _doseLabel(TimeOfDay time) {
+    final dose = _doseOverrides[time] ?? widget.schedule.dose;
+    final strength = widget.schedule.unitDose;
+    if (strength == null) {
+      return '$dose ${widget.schedule.molecule.localizedUnit(widget.schedule.dosingBasis)}';
+    }
+    final quantity = (dose.toRational() / strength.toRational())
+        .toDecimal(scaleOnInfinitePrecision: 3);
+    return '$quantity ${widget.schedule.administrationRoute.localizedUnit(quantity.toDouble())}';
+  }
+
+  Future<void> _editDose(int index) async {
+    final time = _intakeOrNotificationTimes[index];
+    final dose = await showDialog<Decimal>(
+      context: context,
+      builder: (context) => ScheduledDoseDialog(
+        time: time,
+        dose: _doseOverrides[time] ?? widget.schedule.dose,
+        unitDose: widget.schedule.unitDose,
+        route: widget.schedule.administrationRoute,
+        molecule: widget.schedule.molecule,
+        dosingBasis: widget.schedule.dosingBasis,
+      ),
+    );
+    if (dose != null && mounted) setState(() => _doseOverrides[time] = dose);
   }
 
   void _sortTimes() {
@@ -139,6 +184,7 @@ class _EditScheduleSchedulingPageState
 
     final updatedSchedule = widget.schedule.copyWith(
       scheduling: scheduling,
+      doseOverrides: _savedDoseOverrides,
     );
 
     _medicationScheduleProvider.updateSchedule(updatedSchedule);
@@ -154,6 +200,9 @@ class _EditScheduleSchedulingPageState
     _intervalDaysController = TextEditingController();
     _monthlyDayController = TextEditingController();
     _monthlyIntervalController = TextEditingController(text: '1');
+    _doseOverrides.addEntries(widget.schedule.doseOverrides.map(
+      (entry) => MapEntry(entry.time, entry.dose),
+    ));
     final scheduling = widget.schedule.scheduling;
     _type = scheduling.type;
     switch (scheduling) {
@@ -200,6 +249,7 @@ class _EditScheduleSchedulingPageState
     return ModelForm(
       title: widget.schedule.name,
       submitButtonLabel: t.save,
+      submitButtonKey: const ValueKey('editSchedulingSave'),
       isFormValid: _isFormValid,
       saveChanges: _save,
       fields: <Widget>[
@@ -208,6 +258,23 @@ class _EditScheduleSchedulingPageState
           onChanged: (type) => setState(() => _type = type),
         ),
         FormSpacer(),
+        if (_type != SchedulingType.asNeeded) ...[
+          FormInfoText(infoText: t.splitDoseHint),
+          if (_intakeOrNotificationTimes.isNotEmpty &&
+              (_type == SchedulingType.daily || _doseOverrides.isNotEmpty))
+            FormInfoText(
+                infoText: t.scheduledTotal(
+              amount: _intakeOrNotificationTimes
+                  .fold(
+                      Decimal.zero,
+                      (total, time) =>
+                          total +
+                          (_doseOverrides[time] ?? widget.schedule.dose))
+                  .toString(),
+              unit: widget.schedule.molecule
+                  .localizedUnit(widget.schedule.dosingBasis),
+            )),
+        ],
         ...switch (_type) {
           SchedulingType.intervalDays => _intervalDaysSpecifics(),
           SchedulingType.daily => _dailySpecifics(),
@@ -248,6 +315,8 @@ class _EditScheduleSchedulingPageState
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
+        doseLabel: _doseLabel,
+        onEditDose: _editDose,
         onDelete: _deleteTime,
       ),
       FormSpacer(),
@@ -262,6 +331,8 @@ class _EditScheduleSchedulingPageState
         addLabel: t.addIntakeTime,
         onAdd: _addTime,
         onEdit: _editTime,
+        doseLabel: _doseLabel,
+        onEditDose: _editDose,
         onDelete: _deleteTime,
         trailingChildren: [
           TintedSwitchTile(
@@ -290,6 +361,8 @@ class _EditScheduleSchedulingPageState
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
+        doseLabel: _doseLabel,
+        onEditDose: _editDose,
         onDelete: _deleteTime,
       ),
       FormSpacer(),
@@ -323,6 +396,8 @@ class _EditScheduleSchedulingPageState
         addLabel: t.addNotification,
         onAdd: _addTime,
         onEdit: _editTime,
+        doseLabel: _doseLabel,
+        onEditDose: _editDose,
         onDelete: _deleteTime,
       ),
       FormSpacer(),
@@ -341,7 +416,7 @@ class _EditScheduleSchedulingPageState
 
   void _deleteTime(int index) {
     setState(() {
-      _intakeOrNotificationTimes.removeAt(index);
+      _doseOverrides.remove(_intakeOrNotificationTimes.removeAt(index));
     });
   }
 }

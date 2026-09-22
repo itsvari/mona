@@ -234,11 +234,15 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as _i10.Date?);
 
   @override
-  _i10.Date? getLastIntakeLocalDateForSchedule(int? scheduleId) =>
+  _i10.Date? getLastIntakeLocalDateForSchedule(
+    int? scheduleId, {
+    _i5.TimeOfDay? scheduledTime,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #getLastIntakeLocalDateForSchedule,
           [scheduleId],
+          {#scheduledTime: scheduledTime},
         ),
         returnValueForMissingStub: null,
       ) as _i10.Date?);
@@ -261,11 +265,15 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as List<_i7.MedicationIntake>);
 
   @override
-  _i7.MedicationIntake? getLastTakenIntakeForSchedule(int? scheduleId) =>
+  _i7.MedicationIntake? getLastTakenIntakeForSchedule(
+    int? scheduleId, {
+    _i5.TimeOfDay? scheduledTime,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #getLastTakenIntakeForSchedule,
           [scheduleId],
+          {#scheduledTime: scheduledTime},
         ),
         returnValueForMissingStub: null,
       ) as _i7.MedicationIntake?);

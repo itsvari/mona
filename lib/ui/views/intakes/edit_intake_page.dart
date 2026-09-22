@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/medication_intake_manager.dart';
 import 'package:mona/data/model/administration_route.dart';
+import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_intake.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -11,11 +12,11 @@ import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/widgets/dialogs.dart';
+import 'package:mona/ui/widgets/forms/dose_amount_field.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
@@ -51,6 +52,21 @@ class _EditIntakePageState extends State<EditIntakePage> {
   List<GenericSupply> _selectedGenerics = [];
   bool _hasInitializedSupplyItem = false;
   late TextEditingController _notesController;
+
+  ({Decimal? dose, DeliveryForm? form}) get _unit {
+    final intake = widget.intake;
+    if (intake.administrationRoute == AdministrationRoute.injection) {
+      return (dose: null, form: null);
+    }
+    if (_selectedSupplyItem?.id == intake.medicationSupplyItemId &&
+        intake.unitDose != null) {
+      return (dose: intake.unitDose, form: intake.deliveryForm);
+    }
+    if (_selectedSupplyItem case final MedicationSupplyItem supply) {
+      return (dose: supply.dosePerUnit, form: supply.deliveryForm);
+    }
+    return (dose: intake.unitDose, form: intake.deliveryForm);
+  }
 
   String? get _takenDoseError =>
       MedicationIntake.validateDose(_takenDoseController.text);
@@ -91,6 +107,8 @@ class _EditIntakePageState extends State<EditIntakePage> {
         .editIntake(
       intake,
       takenDose: _takenDose,
+      unitDose: _unit.dose,
+      deliveryForm: _unit.form,
       wastedAmount: _wastedAmount,
       deadSpace: _deadSpace,
       takenDateTime: _takenDate.toUtc(),
@@ -261,15 +279,15 @@ class _EditIntakePageState extends State<EditIntakePage> {
               onChanged: _onTakenDateChanged,
             ),
             FormSpacer(),
-            FormTextField(
+            DoseAmountField(
               controller: _takenDoseController,
+              unitDose: _unit.dose,
+              deliveryForm: _unit.form,
+              route: widget.intake.administrationRoute,
+              molecule: widget.intake.molecule,
+              dosingBasis: widget.intake.dosingBasis,
               label: t.takenAmount,
               onChanged: _onTakenDoseChanged,
-              inputType: TextInputType.numberWithOptions(decimal: true),
-              suffixText: widget.intake.molecule
-                  .localizedUnit(widget.intake.dosingBasis),
-              errorText: _takenDoseError,
-              regexFormatter: RegexPatterns.floatNumber,
             ),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(

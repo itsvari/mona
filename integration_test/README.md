@@ -45,6 +45,33 @@ Native wiring already done in this branch:
 
 ## Running
 
+### Unit quantities and split doses on Android and iOS
+
+`unit_dose_flow.dart` uses Flutter's integration-test runner. It creates a
+schedule with 2 mg pills, assigns one pill in the morning and two in the
+evening, records both portions, edits a quantity, and checks patch logging.
+It also verifies that injections keep numeric dose entry.
+The test also checks that a later change to unit strength preserves old
+intakes. It uses an in-memory database and preferences.
+
+Run the flow on a booted simulator. Replace the device ID with one from
+`fvm flutter devices`.
+
+```bash
+fvm flutter test integration_test/unit_dose_flow.dart \
+  -d emulator-5554 --flavor standalone --no-uninstall
+
+fvm flutter test integration_test/unit_dose_flow.dart \
+  -d <ios-simulator-id> --no-uninstall
+```
+
+The test saves `mona-schedule.png` and `mona-logging.png` in the app's temporary
+directory. `--no-uninstall` keeps those screenshots available after the run.
+The file omits the `_test.dart` suffix so Patrol does not include it in its
+generated test bundle.
+
+### Patrol suite
+
 ```bash
 # All E2E tests on a connected emulator/device (note the flavor - the app
 # defines store/standalone flavors, so a flavor is required). Omitting --target
@@ -134,10 +161,10 @@ of its CI options, so a few things mitigate that:
   snapshot don't hit "No space left on device".
 
 
-## iOS (follow-up - not yet wired)
+## Patrol on iOS (not yet wired)
 
-The chosen target is Android-in-CI, and iOS requires Xcode project changes that
-can't be made or verified from this Linux container. To add iOS later:
+The Patrol suite targets Android in CI. The Flutter unit-dose flow above runs
+on iOS without a Patrol test bundle. To run the Patrol suite on iOS:
 
 1. Add a `RunnerTests` target / Patrol test bundle in `ios/Runner.xcodeproj`.
 2. Confirm `patrol.ios.bundle_id` in `pubspec.yaml` matches the app's bundle id.

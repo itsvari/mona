@@ -6,23 +6,24 @@
 import 'dart:async' as _i9;
 import 'dart:ui' as _i5;
 
-import 'package:decimal/decimal.dart' as _i20;
+import 'package:decimal/decimal.dart' as _i21;
+import 'package:flutter/material.dart' as _i17;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mona/controllers/supply_item_manager.dart' as _i19;
+import 'package:mona/controllers/supply_item_manager.dart' as _i20;
 import 'package:mona/data/model/administration_route.dart' as _i11;
 import 'package:mona/data/model/date.dart' as _i16;
 import 'package:mona/data/model/ester.dart' as _i12;
 import 'package:mona/data/model/generic_supply_item.dart' as _i8;
 import 'package:mona/data/model/graph_calculator.dart' as _i15;
 import 'package:mona/data/model/medication_intake.dart' as _i14;
-import 'package:mona/data/model/medication_schedule.dart' as _i18;
+import 'package:mona/data/model/medication_schedule.dart' as _i19;
 import 'package:mona/data/model/medication_supply_item.dart' as _i7;
 import 'package:mona/data/model/molecule.dart' as _i10;
 import 'package:mona/data/model/supply_item.dart' as _i3;
 import 'package:mona/data/providers/medication_intake_provider.dart' as _i13;
-import 'package:mona/data/providers/medication_schedule_provider.dart' as _i17;
+import 'package:mona/data/providers/medication_schedule_provider.dart' as _i18;
 import 'package:mona/data/providers/supply_item_provider.dart' as _i6;
-import 'package:mona/i18n/locale_provider.dart' as _i21;
+import 'package:mona/i18n/locale_provider.dart' as _i22;
 import 'package:mona/services/preferences_service.dart' as _i4;
 import 'package:mona/services/repository.dart' as _i2;
 
@@ -421,10 +422,14 @@ class MockMedicationIntakeProvider extends _i1.Mock
       )) as _i16.Date?);
 
   @override
-  _i16.Date? getLastIntakeLocalDateForSchedule(int? scheduleId) =>
+  _i16.Date? getLastIntakeLocalDateForSchedule(
+    int? scheduleId, {
+    _i17.TimeOfDay? scheduledTime,
+  }) =>
       (super.noSuchMethod(Invocation.method(
         #getLastIntakeLocalDateForSchedule,
         [scheduleId],
+        {#scheduledTime: scheduledTime},
       )) as _i16.Date?);
 
   @override
@@ -444,10 +449,14 @@ class MockMedicationIntakeProvider extends _i1.Mock
       ) as List<_i14.MedicationIntake>);
 
   @override
-  _i14.MedicationIntake? getLastTakenIntakeForSchedule(int? scheduleId) =>
+  _i14.MedicationIntake? getLastTakenIntakeForSchedule(
+    int? scheduleId, {
+    _i17.TimeOfDay? scheduledTime,
+  }) =>
       (super.noSuchMethod(Invocation.method(
         #getLastTakenIntakeForSchedule,
         [scheduleId],
+        {#scheduledTime: scheduledTime},
       )) as _i14.MedicationIntake?);
 
   @override
@@ -491,19 +500,19 @@ class MockMedicationIntakeProvider extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMedicationScheduleProvider extends _i1.Mock
-    implements _i17.MedicationScheduleProvider {
+    implements _i18.MedicationScheduleProvider {
   MockMedicationScheduleProvider() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.Repository<_i18.MedicationSchedule> get repository => (super.noSuchMethod(
+  _i2.Repository<_i19.MedicationSchedule> get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeRepository_0<_i18.MedicationSchedule>(
+        returnValue: _FakeRepository_0<_i19.MedicationSchedule>(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i2.Repository<_i18.MedicationSchedule>);
+      ) as _i2.Repository<_i19.MedicationSchedule>);
 
   @override
   _i4.PreferencesService get preferences => (super.noSuchMethod(
@@ -515,10 +524,10 @@ class MockMedicationScheduleProvider extends _i1.Mock
       ) as _i4.PreferencesService);
 
   @override
-  List<_i18.MedicationSchedule> get schedules => (super.noSuchMethod(
+  List<_i19.MedicationSchedule> get schedules => (super.noSuchMethod(
         Invocation.getter(#schedules),
-        returnValue: <_i18.MedicationSchedule>[],
-      ) as List<_i18.MedicationSchedule>);
+        returnValue: <_i19.MedicationSchedule>[],
+      ) as List<_i19.MedicationSchedule>);
 
   @override
   bool get isLoading => (super.noSuchMethod(
@@ -533,11 +542,11 @@ class MockMedicationScheduleProvider extends _i1.Mock
       ) as bool);
 
   @override
-  _i18.MedicationSchedule? getScheduleById(int? id) =>
+  _i19.MedicationSchedule? getScheduleById(int? id) =>
       (super.noSuchMethod(Invocation.method(
         #getScheduleById,
         [id],
-      )) as _i18.MedicationSchedule?);
+      )) as _i19.MedicationSchedule?);
 
   @override
   _i9.Future<void> fetchSchedules() => (super.noSuchMethod(
@@ -577,7 +586,7 @@ class MockMedicationScheduleProvider extends _i1.Mock
       ) as _i9.Future<void>);
 
   @override
-  _i9.Future<void> deleteSchedule(_i18.MedicationSchedule? schedule) =>
+  _i9.Future<void> deleteSchedule(_i19.MedicationSchedule? schedule) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteSchedule,
@@ -588,7 +597,7 @@ class MockMedicationScheduleProvider extends _i1.Mock
       ) as _i9.Future<void>);
 
   @override
-  _i9.Future<void> add(_i18.MedicationSchedule? schedule) =>
+  _i9.Future<void> add(_i19.MedicationSchedule? schedule) =>
       (super.noSuchMethod(
         Invocation.method(
           #add,
@@ -599,7 +608,7 @@ class MockMedicationScheduleProvider extends _i1.Mock
       ) as _i9.Future<void>);
 
   @override
-  _i9.Future<void> updateSchedule(_i18.MedicationSchedule? schedule) =>
+  _i9.Future<void> updateSchedule(_i19.MedicationSchedule? schedule) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateSchedule,
@@ -649,7 +658,7 @@ class MockMedicationScheduleProvider extends _i1.Mock
 /// A class which mocks [SupplyItemManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSupplyItemManager extends _i1.Mock implements _i19.SupplyItemManager {
+class MockSupplyItemManager extends _i1.Mock implements _i20.SupplyItemManager {
   MockSupplyItemManager() {
     _i1.throwOnMissingStub(this);
   }
@@ -657,7 +666,7 @@ class MockSupplyItemManager extends _i1.Mock implements _i19.SupplyItemManager {
   @override
   _i9.Future<void> useDose(
     _i7.MedicationSupplyItem? item,
-    _i20.Decimal? doseToUse,
+    _i21.Decimal? doseToUse,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -705,8 +714,8 @@ class MockSupplyItemManager extends _i1.Mock implements _i19.SupplyItemManager {
   _i9.Future<void> switchDoses(
     _i7.MedicationSupplyItem? previousItem,
     _i7.MedicationSupplyItem? nextItem,
-    _i20.Decimal? previousDose,
-    _i20.Decimal? nextDose,
+    _i21.Decimal? previousDose,
+    _i21.Decimal? nextDose,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -726,7 +735,7 @@ class MockSupplyItemManager extends _i1.Mock implements _i19.SupplyItemManager {
 /// A class which mocks [LocaleProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLocaleProvider extends _i1.Mock implements _i21.LocaleProvider {
+class MockLocaleProvider extends _i1.Mock implements _i22.LocaleProvider {
   MockLocaleProvider() {
     _i1.throwOnMissingStub(this);
   }

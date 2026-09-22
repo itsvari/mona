@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/data/model/planned_notification.dart';
+import 'package:mona/i18n/helpers/medication_schedule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
@@ -56,9 +58,9 @@ class NotificationScheduler {
       id: _notificationIdFor(plan.schedule.id, plan.dateTime),
       title: t.notificationMedicationReminderTitle(
           scheduleName: plan.schedule.name),
-      body: t.notificationMedicationReminderBodyDate(
-        date: dateFormat.format(plan.dateTime),
-      ),
+      body:
+          '${t.notificationMedicationReminderBodyDate(date: dateFormat.format(plan.dateTime))} · '
+          '${plan.schedule.localizedDoseAt(TimeOfDay.fromDateTime(plan.dateTime))}',
       scheduledTime: plan.dateTime,
     );
   }
@@ -72,9 +74,9 @@ class NotificationScheduler {
       id: _notificationIdFor(plan.schedule.id, plan.firstFire),
       title: t.notificationMedicationReminderTitle(
           scheduleName: plan.schedule.name),
-      body: t.notificationMedicationReminderBodyTime(
-        time: timeFormat.format(plan.firstFire),
-      ),
+      body:
+          '${t.notificationMedicationReminderBodyTime(time: timeFormat.format(plan.firstFire))} · '
+          '${plan.schedule.localizedDoseAt(TimeOfDay.fromDateTime(plan.firstFire))}',
       firstOccurrence: plan.firstFire,
     );
   }
@@ -88,9 +90,9 @@ class NotificationScheduler {
       id: _notificationIdFor(plan.schedule.id, plan.firstFire),
       title: t.notificationMedicationReminderTitle(
           scheduleName: plan.schedule.name),
-      body: t.notificationMedicationReminderBodyWeekday(
-        weekday: weekdayFormat.format(plan.firstFire),
-      ),
+      body:
+          '${t.notificationMedicationReminderBodyWeekday(weekday: weekdayFormat.format(plan.firstFire))} · '
+          '${plan.schedule.localizedDoseAt(TimeOfDay.fromDateTime(plan.firstFire))}',
       firstOccurrence: plan.firstFire,
     );
   }

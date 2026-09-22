@@ -8,6 +8,7 @@ import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/molecule.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/views/home/settings/schedules/new_schedule_scheduling_page.dart';
@@ -17,6 +18,7 @@ import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
+import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
@@ -35,6 +37,7 @@ class NewScheduleMainInfoPage extends StatefulWidget {
 class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
   late TextEditingController _nameController;
   late TextEditingController _doseController;
+  late TextEditingController _unitDoseController;
   Molecule? _molecule;
   AdministrationRoute? _administrationRoute;
   Ester? _ester;
@@ -46,6 +49,8 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
       MedicationSchedule.validateName(_nameController.text);
   String? get _doseError =>
       MedicationSchedule.validateDose(_doseController.text);
+  String? get _unitDoseError =>
+      MedicationSchedule.validateUnitDose(_unitDoseController.text);
   String? get _moleculeError => MedicationSchedule.validateMolecule(_molecule);
   String? get _administrationRouteError =>
       MedicationSchedule.validateAdministrationRoute(_administrationRoute);
@@ -61,6 +66,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
   bool get _isFormValid =>
       _nameError == null &&
       _doseError == null &&
+      _unitDoseError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
       _esterError == null &&
@@ -79,9 +85,10 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
   }
 
   void _onMoleculeChanged(Molecule? molecule) {
-    if (molecule != null) {
+    if (molecule != null && molecule != _molecule) {
       setState(() {
         _molecule = molecule;
+        _unitDoseController.clear();
         if (!_useEsterField) {
           _ester = null;
         }
@@ -93,9 +100,11 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
   }
 
   void _onAdministrationRouteChanged(AdministrationRoute? administrationRoute) {
-    if (administrationRoute != null) {
+    if (administrationRoute != null &&
+        administrationRoute != _administrationRoute) {
       setState(() {
         _administrationRoute = administrationRoute;
+        _unitDoseController.clear();
         if (!_useEsterField) {
           _ester = null;
         }
@@ -135,6 +144,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         builder: (context) => NewScheduleSchedulingPage(
           name: name,
           dose: dose,
+          unitDose: _unitDoseController.text.toDecimalOrNull,
           molecule: _molecule!,
           administrationRoute: _administrationRoute!,
           ester: _ester,
@@ -152,6 +162,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
         Provider.of<PreferencesService>(context, listen: false);
     _nameController = TextEditingController();
     _doseController = TextEditingController();
+    _unitDoseController = TextEditingController();
     _startDate = Date.today();
   }
 
@@ -159,6 +170,7 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
   void dispose() {
     _nameController.dispose();
     _doseController.dispose();
+    _unitDoseController.dispose();
     super.dispose();
   }
 
@@ -215,6 +227,20 @@ class _NewScheduleMainInfoPageState extends State<NewScheduleMainInfoPage> {
             value: _dosingBasis,
             onChanged: _onDosingBasisChanged,
           ),
+        if (_administrationRoute != null &&
+            _administrationRoute != AdministrationRoute.injection) ...[
+          FormTextField(
+            controller: _unitDoseController,
+            fieldKey: const ValueKey('scheduleUnitDose'),
+            label: dosePerUnitFieldLabel(_administrationRoute!, null),
+            suffixText: _molecule?.localizedUnit(_dosingBasis),
+            errorText: _unitDoseError,
+            onChanged: _refresh,
+            inputType: const TextInputType.numberWithOptions(decimal: true),
+            regexFormatter: RegexPatterns.floatNumber,
+          ),
+          FormInfoText(infoText: t.unitDoseOptionalHint),
+        ],
         FormSpacer(),
         FormDateField(
           date: _startDate,

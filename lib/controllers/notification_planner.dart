@@ -69,9 +69,14 @@ class NotificationPlanner {
 
     final plans = <PlannedNotification>[];
     for (final date in dates) {
-      if (date.isToday && takenToday) continue;
-
       for (final time in scheduling.notificationTimes) {
+        final taken = schedule.hasSplitDoses
+            ? _medicationIntakeProvider.getLastIntakeLocalDateForSchedule(
+                    schedule.id,
+                    scheduledTime: time) ==
+                Date.today()
+            : takenToday;
+        if (date.isToday && taken) continue;
         final dateTime = date.toDateTimeAt(time);
         if (!dateTime.isAfter(now)) continue;
         plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
@@ -88,10 +93,14 @@ class NotificationPlanner {
     final now = clock.now();
     final lastTaken = _medicationIntakeProvider
         .getLastIntakeLocalDateForSchedule(schedule.id);
-    final date = scheduling.intakeDate(schedule.startDate, lastTaken);
-
     final plans = <PlannedNotification>[];
     for (final time in scheduling.notificationTimes) {
+      final previous = schedule.hasSplitDoses
+          ? _medicationIntakeProvider.getLastIntakeLocalDateForSchedule(
+              schedule.id,
+              scheduledTime: time)
+          : lastTaken;
+      final date = scheduling.intakeDate(schedule.startDate, previous);
       final dateTime = date.toDateTimeAt(time);
       if (!dateTime.isAfter(now)) continue;
       plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
@@ -113,9 +122,14 @@ class NotificationPlanner {
 
     final plans = <PlannedNotification>[];
     for (final date in dates) {
-      if (date.isToday && takenToday) continue;
-
       for (final time in scheduling.notificationTimes) {
+        final taken = schedule.hasSplitDoses
+            ? _medicationIntakeProvider.getLastIntakeLocalDateForSchedule(
+                    schedule.id,
+                    scheduledTime: time) ==
+                Date.today()
+            : takenToday;
+        if (date.isToday && taken) continue;
         final dateTime = date.toDateTimeAt(time);
         if (!dateTime.isAfter(now)) continue;
         plans.add(PlannedOccurrence(schedule, dateTime: dateTime));
@@ -172,7 +186,12 @@ class NotificationPlanner {
             final nextDate =
                 scheduling.nextDateOn(dayOfWeek, schedule.startDate);
             DateTime candidate = nextDate.toDateTimeAt(time);
-            if (nextDate.isToday && (!candidate.isAfter(now) || takenToday)) {
+            final taken = schedule.hasSplitDoses
+                ? _medicationIntakeProvider
+                    .getTakenIntakesForScheduleOn(schedule.id, today)
+                    .any((intake) => intake.scheduledTime == time)
+                : takenToday;
+            if (nextDate.isToday && (!candidate.isAfter(now) || taken)) {
               candidate = candidate.add(const Duration(days: 7));
             }
             return PlannedRepeating(

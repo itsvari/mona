@@ -19,6 +19,7 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
         DecimalStringMapper(),
         TimeOfDayMapper(),
       ]);
+      DeliveryFormMapper.ensureInitialized();
       MoleculeMapper.ensureInitialized();
       AdministrationRouteMapper.ensureInitialized();
       EsterMapper.ensureInitialized();
@@ -47,6 +48,18 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
   static const Field<MedicationIntake, Decimal> _f$takenDose = Field(
     'takenDose',
     _$takenDose,
+  );
+  static Decimal? _$unitDose(MedicationIntake v) => v.unitDose;
+  static const Field<MedicationIntake, Decimal> _f$unitDose = Field(
+    'unitDose',
+    _$unitDose,
+    opt: true,
+  );
+  static DeliveryForm? _$deliveryForm(MedicationIntake v) => v.deliveryForm;
+  static const Field<MedicationIntake, DeliveryForm> _f$deliveryForm = Field(
+    'deliveryForm',
+    _$deliveryForm,
+    opt: true,
   );
   static Decimal? _$wastedAmount(MedicationIntake v) => v.wastedAmount;
   static const Field<MedicationIntake, Decimal> _f$wastedAmount = Field(
@@ -137,6 +150,8 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
     #id: _f$id,
     #scheduledTime: _f$scheduledTime,
     #takenDose: _f$takenDose,
+    #unitDose: _f$unitDose,
+    #deliveryForm: _f$deliveryForm,
     #wastedAmount: _f$wastedAmount,
     #deadSpace: _f$deadSpace,
     #takenDateTime: _f$takenDateTime,
@@ -157,6 +172,8 @@ class MedicationIntakeMapper extends ClassMapperBase<MedicationIntake> {
       id: data.dec(_f$id),
       scheduledTime: data.dec(_f$scheduledTime),
       takenDose: data.dec(_f$takenDose),
+      unitDose: data.dec(_f$unitDose),
+      deliveryForm: data.dec(_f$deliveryForm),
       wastedAmount: data.dec(_f$wastedAmount),
       deadSpace: data.dec(_f$deadSpace),
       takenDateTime: data.dec(_f$takenDateTime),
@@ -243,6 +260,8 @@ abstract class MedicationIntakeCopyWith<$R, $In extends MedicationIntake, $Out>
     int? id,
     TimeOfDay? scheduledTime,
     Decimal? takenDose,
+    Decimal? unitDose,
+    DeliveryForm? deliveryForm,
     Decimal? wastedAmount,
     Decimal? deadSpace,
     DateTime? takenDateTime,
@@ -292,6 +311,8 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
     Object? id = $none,
     Object? scheduledTime = $none,
     Decimal? takenDose,
+    Object? unitDose = $none,
+    Object? deliveryForm = $none,
     Object? wastedAmount = $none,
     Object? deadSpace = $none,
     Object? takenDateTime = $none,
@@ -311,6 +332,8 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
           if (id != $none) #id: id,
           if (scheduledTime != $none) #scheduledTime: scheduledTime,
           if (takenDose != null) #takenDose: takenDose,
+          if (unitDose != $none) #unitDose: unitDose,
+          if (deliveryForm != $none) #deliveryForm: deliveryForm,
           if (wastedAmount != $none) #wastedAmount: wastedAmount,
           if (deadSpace != $none) #deadSpace: deadSpace,
           if (takenDateTime != $none) #takenDateTime: takenDateTime,
@@ -334,6 +357,8 @@ class _MedicationIntakeCopyWithImpl<$R, $Out>
         id: data.get(#id, or: $value.id),
         scheduledTime: data.get(#scheduledTime, or: $value.scheduledTime),
         takenDose: data.get(#takenDose, or: $value.takenDose),
+        unitDose: data.get(#unitDose, or: $value.unitDose),
+        deliveryForm: data.get(#deliveryForm, or: $value.deliveryForm),
         wastedAmount: data.get(#wastedAmount, or: $value.wastedAmount),
         deadSpace: data.get(#deadSpace, or: $value.deadSpace),
         takenDateTime: data.get(#takenDateTime, or: $value.takenDateTime),

@@ -13,10 +13,10 @@ import 'package:mona/data/model/placement.dart';
 import 'package:mona/data/model/supply_item.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
-import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
+import 'package:mona/ui/widgets/forms/dose_amount_field.dart';
 import 'package:mona/ui/widgets/forms/form_datetime_field.dart';
 import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
@@ -56,6 +56,16 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   late TextEditingController _notesController;
   bool _isTaken = false;
 
+  Decimal? get _unitDose {
+    if (widget.schedule.administrationRoute == AdministrationRoute.injection) {
+      return null;
+    }
+    if (_selectedSupplyItem case final MedicationSupplyItem supply) {
+      return supply.dosePerUnit;
+    }
+    return widget.schedule.unitDose;
+  }
+
   String? get _takenDoseError =>
       MedicationIntake.validateDose(_takenDoseController.text);
 
@@ -81,6 +91,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
             medicationIntakeProvider, supplyItemProvider, preferencesService)
         .takeMedication(
             takenDose: _takenDose,
+            unitDose: _unitDose,
             scheduledTime: widget.scheduledTime,
             takenDateTime: _takenDate.toUtc(),
             medicationItem: _selectedSupplyItem is MedicationSupplyItem
@@ -126,6 +137,8 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
       setState(() {
         _takenDose = takenDose;
       });
+    } else {
+      setState(() {});
     }
   }
 
@@ -157,10 +170,9 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   void initState() {
     super.initState();
     _takenDate = clock.now();
-    _takenDose = widget.schedule.dose;
+    _takenDose = widget.schedule.doseAt(widget.scheduledTime);
     _wastedAmount = Decimal.zero;
-    _takenDoseController =
-        TextEditingController(text: widget.schedule.dose.toString());
+    _takenDoseController = TextEditingController(text: _takenDose.toString());
     _wastedAmountController = TextEditingController(text: '0');
     _deadSpaceController = TextEditingController(text: '0');
     _notesController = TextEditingController();
@@ -240,15 +252,18 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
               datetime: _takenDate,
               onChanged: _onTakenDateChanged,
             ),
-            FormTextField(
-                controller: _takenDoseController,
-                label: t.takenAmount,
-                onChanged: _onTakenDoseChanged,
-                inputType: TextInputType.numberWithOptions(decimal: true),
-                suffixText: widget.schedule.molecule
-                    .localizedUnit(widget.schedule.dosingBasis),
-                errorText: _takenDoseError,
-                regexFormatter: RegexPatterns.floatNumber),
+            DoseAmountField(
+              controller: _takenDoseController,
+              unitDose: _unitDose,
+              deliveryForm: _selectedSupplyItem is MedicationSupplyItem
+                  ? (_selectedSupplyItem as MedicationSupplyItem).deliveryForm
+                  : null,
+              route: widget.schedule.administrationRoute,
+              molecule: widget.schedule.molecule,
+              dosingBasis: widget.schedule.dosingBasis,
+              label: t.takenAmount,
+              onChanged: _onTakenDoseChanged,
+            ),
             if (_selectedSupplyItem case final MedicationSupplyItem supplyItem)
               FormInfoText(
                 infoText: supplyItem.localizedSupplyAmount(_takenDose),

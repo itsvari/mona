@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/custom_mappers.dart';
 import 'package:mona/data/model/date.dart';
+import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/dosing_basis.dart';
 import 'package:mona/data/model/ester.dart';
 import 'package:mona/data/model/mapping_hooks.dart';
@@ -29,6 +30,8 @@ class MedicationIntake with MedicationIntakeMappable {
   final DateTime? takenDateTime; // todo make non nullable ?
   final String? takenTimeZone;
   final Decimal takenDose;
+  final Decimal? unitDose;
+  final DeliveryForm? deliveryForm;
   final Decimal? wastedAmount; // mL
   final Decimal? deadSpace; // μL
   final int? scheduleId;
@@ -49,6 +52,8 @@ class MedicationIntake with MedicationIntakeMappable {
     int? id,
     this.scheduledTime,
     required this.takenDose,
+    this.unitDose,
+    this.deliveryForm,
     this.wastedAmount,
     this.deadSpace,
     this.takenDateTime,

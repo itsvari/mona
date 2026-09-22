@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:mona/controllers/supply_item_manager.dart';
+import 'package:mona/data/model/delivery_form.dart';
 import 'package:mona/data/model/generic_supply_item.dart';
 import 'package:mona/data/model/medication_schedule.dart';
 import 'package:mona/data/model/medication_supply_item.dart';
@@ -24,6 +25,7 @@ class MedicationIntakeManager {
 
   Future<void> takeMedication({
     required Decimal takenDose,
+    Decimal? unitDose,
     TimeOfDay? scheduledTime,
     required DateTime takenDateTime,
     MedicationSupplyItem? medicationItem,
@@ -43,6 +45,8 @@ class MedicationIntakeManager {
 
     await _medicationIntakeProvider.add(MedicationIntake(
       takenDose: takenDose,
+      unitDose: unitDose,
+      deliveryForm: medicationItem?.deliveryForm,
       scheduledTime: scheduledTime,
       takenDateTime: takenDateTime,
       takenTimeZone: tzName,
@@ -103,6 +107,8 @@ class MedicationIntakeManager {
   Future<void> editIntake(
     MedicationIntake intake, {
     required Decimal takenDose,
+    Decimal? unitDose,
+    DeliveryForm? deliveryForm,
     Decimal? wastedAmount,
     Decimal? deadSpace,
     required DateTime takenDateTime,
@@ -167,6 +173,8 @@ class MedicationIntakeManager {
       takenDateTime: takenDateTime,
       takenTimeZone: takenTimeZone,
       takenDose: takenDose,
+      unitDose: unitDose,
+      deliveryForm: deliveryForm,
       wastedAmount: wastedAmount,
       deadSpace: deadSpace,
       medicationSupplyItemId: medicationItem?.id,

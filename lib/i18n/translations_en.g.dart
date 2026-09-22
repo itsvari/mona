@@ -454,6 +454,30 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Taken amount'
   String get takenAmount => 'Taken amount';
 
+  /// en: 'Optional. Enter the strength of one unit to log quantities with the + and − buttons.'
+  String get unitDoseOptionalHint =>
+      'Optional. Enter the strength of one unit to log quantities with the + and − buttons.';
+
+  /// en: 'Quantity'
+  String get unitQuantity => 'Quantity';
+
+  /// en: 'Decrease quantity'
+  String get decreaseQuantity => 'Decrease quantity';
+
+  /// en: 'Increase quantity'
+  String get increaseQuantity => 'Increase quantity';
+
+  /// en: 'Scheduled amount'
+  String get scheduledDose => 'Scheduled amount';
+
+  /// en: 'Total across intake times: {amount} {unit}'
+  String scheduledTotal({required Object amount, required Object unit}) =>
+      'Total across intake times: ${amount} ${unit}';
+
+  /// en: 'Tap the amount beside a time to set its dose. Setting custom amounts tracks each time separately.'
+  String get splitDoseHint =>
+      'Tap the amount beside a time to set its dose. Setting custom amounts tracks each time separately.';
+
   /// en: 'Wasted amount'
   String get wastedAmount => 'Wasted amount';
 
@@ -1257,6 +1281,16 @@ extension on Translations {
       'date' => 'Date',
       'amount' => 'Amount',
       'takenAmount' => 'Taken amount',
+      'unitDoseOptionalHint' =>
+        'Optional. Enter the strength of one unit to log quantities with the + and − buttons.',
+      'unitQuantity' => 'Quantity',
+      'decreaseQuantity' => 'Decrease quantity',
+      'increaseQuantity' => 'Increase quantity',
+      'scheduledDose' => 'Scheduled amount',
+      'scheduledTotal' => ({required Object amount, required Object unit}) =>
+          'Total across intake times: ${amount} ${unit}',
+      'splitDoseHint' =>
+        'Tap the amount beside a time to set its dose. Setting custom amounts tracks each time separately.',
       'wastedAmount' => 'Wasted amount',
       'none' => 'None',
       'supplyItem' => 'Supply item',

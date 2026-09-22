@@ -19,6 +19,7 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
         DecimalStringMapper(),
         DateStringMapper(),
       ]);
+      ScheduledDoseMapper.ensureInitialized();
       SchedulingStrategyMapper.ensureInitialized();
       MoleculeMapper.ensureInitialized();
       AdministrationRouteMapper.ensureInitialized();
@@ -46,6 +47,22 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
   static const Field<MedicationSchedule, Decimal> _f$dose = Field(
     'dose',
     _$dose,
+  );
+  static Decimal? _$unitDose(MedicationSchedule v) => v.unitDose;
+  static const Field<MedicationSchedule, Decimal> _f$unitDose = Field(
+    'unitDose',
+    _$unitDose,
+    opt: true,
+  );
+  static List<ScheduledDose> _$doseOverrides(MedicationSchedule v) =>
+      v.doseOverrides;
+  static const Field<MedicationSchedule, List<ScheduledDose>> _f$doseOverrides =
+      Field(
+    'doseOverrides',
+    _$doseOverrides,
+    opt: true,
+    def: const [],
+    hook: JsonStringHook(),
   );
   static SchedulingStrategy _$scheduling(MedicationSchedule v) => v.scheduling;
   static const Field<MedicationSchedule, SchedulingStrategy> _f$scheduling =
@@ -84,6 +101,8 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
     #id: _f$id,
     #name: _f$name,
     #dose: _f$dose,
+    #unitDose: _f$unitDose,
+    #doseOverrides: _f$doseOverrides,
     #scheduling: _f$scheduling,
     #startDate: _f$startDate,
     #molecule: _f$molecule,
@@ -97,6 +116,8 @@ class MedicationScheduleMapper extends ClassMapperBase<MedicationSchedule> {
       id: data.dec(_f$id),
       name: data.dec(_f$name),
       dose: data.dec(_f$dose),
+      unitDose: data.dec(_f$unitDose),
+      doseOverrides: data.dec(_f$doseOverrides),
       scheduling: data.dec(_f$scheduling),
       startDate: data.dec(_f$startDate),
       molecule: data.dec(_f$molecule),
@@ -169,6 +190,9 @@ extension MedicationScheduleValueCopy<$R, $Out>
 
 abstract class MedicationScheduleCopyWith<$R, $In extends MedicationSchedule,
     $Out> implements ClassCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, ScheduledDose,
+          ScheduledDoseCopyWith<$R, ScheduledDose, ScheduledDose>>
+      get doseOverrides;
   SchedulingStrategyCopyWith<$R, SchedulingStrategy, SchedulingStrategy>
       get scheduling;
   MoleculeCopyWith<$R, Molecule, Molecule> get molecule;
@@ -176,6 +200,8 @@ abstract class MedicationScheduleCopyWith<$R, $In extends MedicationSchedule,
     int? id,
     String? name,
     Decimal? dose,
+    Decimal? unitDose,
+    List<ScheduledDose>? doseOverrides,
     SchedulingStrategy? scheduling,
     Date? startDate,
     Molecule? molecule,
@@ -197,6 +223,14 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
   late final ClassMapperBase<MedicationSchedule> $mapper =
       MedicationScheduleMapper.ensureInitialized();
   @override
+  ListCopyWith<$R, ScheduledDose,
+          ScheduledDoseCopyWith<$R, ScheduledDose, ScheduledDose>>
+      get doseOverrides => ListCopyWith(
+            $value.doseOverrides,
+            (v, t) => v.copyWith.$chain(t),
+            (v) => call(doseOverrides: v),
+          );
+  @override
   SchedulingStrategyCopyWith<$R, SchedulingStrategy, SchedulingStrategy>
       get scheduling =>
           $value.scheduling.copyWith.$chain((v) => call(scheduling: v));
@@ -208,6 +242,8 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
     Object? id = $none,
     String? name,
     Decimal? dose,
+    Object? unitDose = $none,
+    List<ScheduledDose>? doseOverrides,
     SchedulingStrategy? scheduling,
     Object? startDate = $none,
     Molecule? molecule,
@@ -220,6 +256,8 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
           if (id != $none) #id: id,
           if (name != null) #name: name,
           if (dose != null) #dose: dose,
+          if (unitDose != $none) #unitDose: unitDose,
+          if (doseOverrides != null) #doseOverrides: doseOverrides,
           if (scheduling != null) #scheduling: scheduling,
           if (startDate != $none) #startDate: startDate,
           if (molecule != null) #molecule: molecule,
@@ -234,6 +272,8 @@ class _MedicationScheduleCopyWithImpl<$R, $Out>
         id: data.get(#id, or: $value.id),
         name: data.get(#name, or: $value.name),
         dose: data.get(#dose, or: $value.dose),
+        unitDose: data.get(#unitDose, or: $value.unitDose),
+        doseOverrides: data.get(#doseOverrides, or: $value.doseOverrides),
         scheduling: data.get(#scheduling, or: $value.scheduling),
         startDate: data.get(#startDate, or: $value.startDate),
         molecule: data.get(#molecule, or: $value.molecule),

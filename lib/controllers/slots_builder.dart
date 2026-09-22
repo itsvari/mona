@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:mona/data/model/date.dart';
 import 'package:mona/data/model/intake_slot.dart';
 import 'package:mona/data/model/medication_schedule.dart';
@@ -19,15 +20,35 @@ class SlotsBuilder {
     for (final schedule in _medicationScheduleProvider.schedules) {
       switch (schedule.scheduling) {
         case IntervalDaysSchedule scheduling:
-          slots.add(_interval(schedule, scheduling));
+          if (schedule.hasSplitDoses) {
+            slots.addAll(schedule.intakeTimes
+                .map((time) => _interval(schedule, scheduling, time: time)));
+          } else {
+            slots.add(_interval(schedule, scheduling));
+          }
         case DynamicIntervalSchedule scheduling:
-          slots.add(_dynamicInterval(schedule, scheduling));
+          if (schedule.hasSplitDoses) {
+            slots.addAll(schedule.intakeTimes.map(
+                (time) => _dynamicInterval(schedule, scheduling, time: time)));
+          } else {
+            slots.add(_dynamicInterval(schedule, scheduling));
+          }
         case DailySchedule scheduling:
           slots.addAll(_daily(schedule, scheduling));
         case WeeklySchedule scheduling:
-          slots.add(_weekly(schedule, scheduling));
+          if (schedule.hasSplitDoses) {
+            slots.addAll(schedule.intakeTimes
+                .map((time) => _weekly(schedule, scheduling, time: time)));
+          } else {
+            slots.add(_weekly(schedule, scheduling));
+          }
         case MonthlySchedule scheduling:
-          slots.add(_monthly(schedule, scheduling));
+          if (schedule.hasSplitDoses) {
+            slots.addAll(schedule.intakeTimes
+                .map((time) => _monthly(schedule, scheduling, time: time)));
+          } else {
+            slots.add(_monthly(schedule, scheduling));
+          }
         case AsNeededSchedule scheduling:
           slots.add(_asNeeded(schedule, scheduling));
       }
@@ -38,12 +59,13 @@ class SlotsBuilder {
 
   IntakeSlot _interval(
     MedicationSchedule schedule,
-    IntervalDaysSchedule scheduling,
-  ) {
+    IntervalDaysSchedule scheduling, {
+    TimeOfDay? time,
+  }) {
     final lastTaken = _medicationIntakeProvider
-        .getLastIntakeLocalDateForSchedule(schedule.id);
-    final lastIntake =
-        _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
+        .getLastIntakeLocalDateForSchedule(schedule.id, scheduledTime: time);
+    final lastIntake = _medicationIntakeProvider
+        .getLastTakenIntakeForSchedule(schedule.id, scheduledTime: time);
 
     final status = scheduling.statusFor(
       startDate: schedule.startDate,
@@ -51,6 +73,7 @@ class SlotsBuilder {
     );
     return IntakeSlot(
       schedule: schedule,
+      time: time,
       status: status,
       date: status == ScheduleStatus.overdue
           ? scheduling.previousDate(schedule.startDate)!
@@ -61,12 +84,13 @@ class SlotsBuilder {
 
   IntakeSlot _dynamicInterval(
     MedicationSchedule schedule,
-    DynamicIntervalSchedule scheduling,
-  ) {
+    DynamicIntervalSchedule scheduling, {
+    TimeOfDay? time,
+  }) {
     final lastTaken = _medicationIntakeProvider
-        .getLastIntakeLocalDateForSchedule(schedule.id);
-    final lastIntake =
-        _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
+        .getLastIntakeLocalDateForSchedule(schedule.id, scheduledTime: time);
+    final lastIntake = _medicationIntakeProvider
+        .getLastTakenIntakeForSchedule(schedule.id, scheduledTime: time);
 
     final status = scheduling.statusFor(
       startDate: schedule.startDate,
@@ -74,6 +98,7 @@ class SlotsBuilder {
     );
     return IntakeSlot(
       schedule: schedule,
+      time: time,
       status: status,
       date: scheduling.intakeDate(schedule.startDate, lastTaken),
       intake: status == ScheduleStatus.taken ? lastIntake : null,
@@ -82,12 +107,13 @@ class SlotsBuilder {
 
   IntakeSlot _monthly(
     MedicationSchedule schedule,
-    MonthlySchedule scheduling,
-  ) {
+    MonthlySchedule scheduling, {
+    TimeOfDay? time,
+  }) {
     final lastTaken = _medicationIntakeProvider
-        .getLastIntakeLocalDateForSchedule(schedule.id);
-    final lastIntake =
-        _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
+        .getLastIntakeLocalDateForSchedule(schedule.id, scheduledTime: time);
+    final lastIntake = _medicationIntakeProvider
+        .getLastTakenIntakeForSchedule(schedule.id, scheduledTime: time);
 
     final status = scheduling.statusFor(
       startDate: schedule.startDate,
@@ -95,6 +121,7 @@ class SlotsBuilder {
     );
     return IntakeSlot(
       schedule: schedule,
+      time: time,
       status: status,
       date: status == ScheduleStatus.overdue
           ? scheduling.previousDate(schedule.startDate)!
@@ -132,12 +159,13 @@ class SlotsBuilder {
 
   IntakeSlot _weekly(
     MedicationSchedule schedule,
-    WeeklySchedule scheduling,
-  ) {
+    WeeklySchedule scheduling, {
+    TimeOfDay? time,
+  }) {
     final lastTaken = _medicationIntakeProvider
-        .getLastIntakeLocalDateForSchedule(schedule.id);
-    final lastIntake =
-        _medicationIntakeProvider.getLastTakenIntakeForSchedule(schedule.id);
+        .getLastIntakeLocalDateForSchedule(schedule.id, scheduledTime: time);
+    final lastIntake = _medicationIntakeProvider
+        .getLastTakenIntakeForSchedule(schedule.id, scheduledTime: time);
 
     final status = scheduling.statusFor(
       startDate: schedule.startDate,
@@ -146,6 +174,7 @@ class SlotsBuilder {
     );
     return IntakeSlot(
       schedule: schedule,
+      time: time,
       status: status,
       date: status == ScheduleStatus.overdue
           ? scheduling.previousDate(schedule.startDate)!

@@ -10,6 +10,7 @@ import 'package:mona/data/model/molecule.dart';
 import 'package:mona/data/providers/medication_schedule_provider.dart';
 import 'package:mona/i18n/helpers/medication_schedule_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
+import 'package:mona/i18n/helpers/supply_item_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:mona/ui/views/home/settings/schedules/edit_schedule/edit_schedule_scheduling_page.dart';
@@ -20,6 +21,7 @@ import 'package:mona/ui/widgets/dropdowns/ester_dropdown.dart';
 import 'package:mona/ui/widgets/dropdowns/molecule_dropdown.dart';
 import 'package:mona/ui/widgets/forms/form_date_field.dart';
 import 'package:mona/ui/widgets/forms/form_dropdown_field.dart';
+import 'package:mona/ui/widgets/forms/form_info_text.dart';
 import 'package:mona/ui/widgets/forms/form_spacer.dart';
 import 'package:mona/ui/widgets/forms/form_text_field.dart';
 import 'package:mona/ui/widgets/forms/model_form.dart';
@@ -41,6 +43,7 @@ class EditScheduleMainInfoPage extends StatefulWidget {
 class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   late TextEditingController _nameController;
   late TextEditingController _doseController;
+  late TextEditingController _unitDoseController;
   late Molecule _molecule;
   late AdministrationRoute _administrationRoute;
   late Ester? _ester;
@@ -53,6 +56,8 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
       MedicationSchedule.validateName(_nameController.text);
   String? get _doseError =>
       MedicationSchedule.validateDose(_doseController.text);
+  String? get _unitDoseError =>
+      MedicationSchedule.validateUnitDose(_unitDoseController.text);
   String? get _moleculeError => MedicationSchedule.validateMolecule(_molecule);
   String? get _administrationRouteError =>
       MedicationSchedule.validateAdministrationRoute(_administrationRoute);
@@ -67,6 +72,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   bool get _isFormValid =>
       _nameError == null &&
       _doseError == null &&
+      _unitDoseError == null &&
       _moleculeError == null &&
       _administrationRouteError == null &&
       _esterError == null &&
@@ -80,9 +86,10 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
       supportsReleaseRate(_molecule, _administrationRoute);
 
   void _onMoleculeChanged(Molecule? molecule) {
-    if (molecule != null) {
+    if (molecule != null && molecule != _molecule) {
       setState(() {
         _molecule = molecule;
+        _unitDoseController.clear();
 
         if (!_useEsterField) {
           _ester = null;
@@ -96,9 +103,11 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   }
 
   void _onAdministrationRouteChanged(AdministrationRoute? administrationRoute) {
-    if (administrationRoute != null) {
+    if (administrationRoute != null &&
+        administrationRoute != _administrationRoute) {
       setState(() {
         _administrationRoute = administrationRoute;
+        _unitDoseController.clear();
 
         if (!_useEsterField) {
           _ester = null;
@@ -140,6 +149,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     final updatedSchedule = originalSchedule.copyWith(
       name: _nameController.text,
       dose: _doseController.text.toDecimal,
+      unitDose: _unitDoseController.text.toDecimalOrNull,
       molecule: _molecule,
       administrationRoute: _administrationRoute,
       ester: _useEsterField ? _ester : null,
@@ -173,6 +183,9 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
     _nameController = TextEditingController(text: widget.schedule.name);
     _doseController =
         TextEditingController(text: widget.schedule.dose.toString());
+    _unitDoseController = TextEditingController(
+      text: widget.schedule.unitDose?.toString() ?? '',
+    );
     _molecule = widget.schedule.molecule;
     _administrationRoute = widget.schedule.administrationRoute;
     _ester = widget.schedule.ester;
@@ -184,6 +197,7 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
   void dispose() {
     _nameController.dispose();
     _doseController.dispose();
+    _unitDoseController.dispose();
     super.dispose();
   }
 
@@ -246,6 +260,19 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
           value: _dosingBasis,
           onChanged: _onDosingBasisChanged,
         ),
+        if (_administrationRoute != AdministrationRoute.injection) ...[
+          FormTextField(
+            controller: _unitDoseController,
+            fieldKey: const ValueKey('scheduleUnitDose'),
+            label: dosePerUnitFieldLabel(_administrationRoute, null),
+            suffixText: _molecule.localizedUnit(_dosingBasis),
+            errorText: _unitDoseError,
+            onChanged: _refresh,
+            inputType: const TextInputType.numberWithOptions(decimal: true),
+            regexFormatter: RegexPatterns.floatNumber,
+          ),
+          FormInfoText(infoText: t.unitDoseOptionalHint),
+        ],
         FormSpacer(),
         FormDateField(
           date: _startDate,
@@ -264,13 +291,23 @@ class _EditScheduleMainInfoPageState extends State<EditScheduleMainInfoPage> {
               subtitle: currentSchedule.localizedFrequency,
               leading: Icon(Symbols.event_repeat_rounded),
               trailing: Icon(Symbols.chevron_right_rounded),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute<void>(
-                  builder: (context) => EditScheduleSchedulingPage(
-                    schedule: currentSchedule,
-                  ),
-                ));
-              },
+              onTap: _isFormValid
+                  ? () {
+                      Navigator.of(context).push(MaterialPageRoute<void>(
+                        builder: (context) => EditScheduleSchedulingPage(
+                          schedule: currentSchedule.copyWith(
+                            name: _nameController.text,
+                            dose: _doseController.text.toDecimal,
+                            unitDose: _unitDoseController.text.toDecimalOrNull,
+                            molecule: _molecule,
+                            administrationRoute: _administrationRoute,
+                            ester: _useEsterField ? _ester : null,
+                            startDate: _startDate,
+                          ),
+                        ),
+                      ));
+                    }
+                  : null,
             ),
           ],
         ),

@@ -120,8 +120,12 @@ class MedicationIntakeProvider extends ChangeNotifier {
         .takenLocalDate;
   }
 
-  Date? getLastIntakeLocalDateForSchedule(int scheduleId) {
-    final scheduleIntakes = getTakenIntakesDescForSchedule(scheduleId);
+  Date? getLastIntakeLocalDateForSchedule(int scheduleId,
+      {TimeOfDay? scheduledTime}) {
+    final scheduleIntakes = getTakenIntakesDescForSchedule(scheduleId)
+        .where((intake) =>
+            scheduledTime == null || intake.scheduledTime == scheduledTime)
+        .toList();
     return getLastIntakeLocalDateFromList(scheduleIntakes);
   }
 
@@ -132,8 +136,12 @@ class MedicationIntakeProvider extends ChangeNotifier {
         .toList();
   }
 
-  MedicationIntake? getLastTakenIntakeForSchedule(int scheduleId) {
-    final scheduleIntakes = getTakenIntakesDescForSchedule(scheduleId);
+  MedicationIntake? getLastTakenIntakeForSchedule(int scheduleId,
+      {TimeOfDay? scheduledTime}) {
+    final scheduleIntakes = getTakenIntakesDescForSchedule(scheduleId)
+        .where((intake) =>
+            scheduledTime == null || intake.scheduledTime == scheduledTime)
+        .toList();
     if (scheduleIntakes.isEmpty) return null;
     return scheduleIntakes
         .reduce((a, b) => a.takenDateTime!.isAfter(b.takenDateTime!) ? a : b);

@@ -12,6 +12,8 @@ class TimeListCard extends StatelessWidget {
   final ValueChanged<int> onDelete;
   final List<Widget> trailingChildren;
   final Key? addTileKey;
+  final String Function(TimeOfDay)? doseLabel;
+  final ValueChanged<int>? onEditDose;
 
   const TimeListCard({
     super.key,
@@ -23,6 +25,8 @@ class TimeListCard extends StatelessWidget {
     required this.onDelete,
     this.trailingChildren = const [],
     this.addTileKey,
+    this.doseLabel,
+    this.onEditDose,
   });
 
   @override
@@ -40,9 +44,21 @@ class TimeListCard extends StatelessWidget {
             leading: Icon(rowIcon),
             title: times[i].format(context),
             onTap: () => onEdit(i),
-            trailing: IconButton(
-              icon: const Icon(Symbols.delete_outline_rounded),
-              onPressed: () => onDelete(i),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (doseLabel != null)
+                  TextButton(
+                    key: ValueKey(
+                        'scheduledDose${times[i].hour}:${times[i].minute}'),
+                    onPressed: () => onEditDose?.call(i),
+                    child: Text(doseLabel!(times[i])),
+                  ),
+                IconButton(
+                  icon: const Icon(Symbols.delete_outline_rounded),
+                  onPressed: () => onDelete(i),
+                ),
+              ],
             ),
           ),
         TappableListTile(

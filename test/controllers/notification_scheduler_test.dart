@@ -1,4 +1,5 @@
 import 'package:clock/clock.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -6,6 +7,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mona/controllers/notification_planner.dart';
 import 'package:mona/controllers/notification_scheduler.dart';
+import 'package:mona/data/model/scheduled_dose.dart';
 import 'package:mona/services/notification_service.dart';
 import 'package:mona/services/preferences_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -139,6 +141,24 @@ void main() {
   });
 
   group('regenerateAll', () {
+    test('reminder bodies show each portion in units and dose', () async {
+      final schedule = aMedicationSchedule(
+              dose: Decimal.fromInt(6),
+              scheduling: aDailyStrategy(intakeTimes: [morning, evening]))
+          .copyWith(unitDose: Decimal.fromInt(2), doseOverrides: [
+        ScheduledDose(time: morning, dose: Decimal.fromInt(2)),
+        ScheduledDose(time: evening, dose: Decimal.fromInt(4)),
+      ]);
+      when(planner.planNotifications(daysAhead: anyNamed('daysAhead')))
+          .thenReturn([
+        aDailyPlan(schedule: schedule, firstFire: DateTime(2026, 6, 2, 9)),
+        aDailyPlan(schedule: schedule, firstFire: DateTime(2026, 6, 2, 20, 30)),
+      ]);
+      await NotificationScheduler(planner, preferences).regenerateAll('en');
+      verifyScheduled(body: contains('1 pill (2 mg)')).called(1);
+      verifyScheduled(body: contains('2 pills (4 mg)')).called(1);
+    });
+
     test('returns early when notifications are disabled', () async {
       when(preferences.notificationsEnabled).thenReturn(false);
       final sut = NotificationScheduler(planner, preferences);

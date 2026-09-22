@@ -9,6 +9,7 @@ import 'package:mona/data/model/scheduling_strategy.dart';
 import 'package:mona/data/providers/medication_intake_provider.dart';
 import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/i18n/build_context_extensions.dart';
+import 'package:mona/i18n/helpers/medication_schedule_l10n.dart';
 import 'package:mona/i18n/helpers/molecule_l10n.dart';
 import 'package:mona/i18n/translations.g.dart';
 import 'package:mona/ui/views/home/take_medication_page.dart';
@@ -122,10 +123,12 @@ class IntakeTileViewModel {
   final String languageTag;
   final BuildContext context;
 
-  bool get _isDailySlot => slotTime != null;
+  bool get _hasScheduledTime => slotTime != null;
 
-  Date? get lastTaken =>
-      intakeProvider.getLastIntakeLocalDateForSchedule(schedule.id);
+  Date? get lastTaken => intakeProvider.getLastIntakeLocalDateForSchedule(
+        schedule.id,
+        scheduledTime: schedule.hasSplitDoses ? slotTime : null,
+      );
 
   int get dateDifference => date.daysAwayFromToday;
 
@@ -136,7 +139,7 @@ class IntakeTileViewModel {
       return t.taken;
     }
 
-    return "${schedule.dose} ${schedule.molecule.localizedUnit(schedule.dosingBasis)} • "
+    return "${schedule.localizedDoseAt(slotTime)} • "
         "${schedule.molecule.localizedNameWithEster(schedule.ester)}";
   }
 
@@ -146,13 +149,19 @@ class IntakeTileViewModel {
   String _daysAgo(int count) =>
       count == 1 ? t.yesterday : t.daysAgoCount(count: count);
 
+  String get _dateAndTime {
+    final formatted = date.format(DateFormat.MMMMd(languageTag));
+    return _hasScheduledTime
+        ? '$formatted · ${slotTime!.format(context)}'
+        : formatted;
+  }
+
   String? get scheduledText {
     if (status == ScheduleStatus.upcoming) {
-      final formatted = date.format(DateFormat.MMMMd(languageTag));
-      return "$formatted - ${_inDays(dateDifference)}";
+      return "$_dateAndTime - ${_inDays(dateDifference)}";
     }
 
-    if (_isDailySlot) {
+    if (_hasScheduledTime && status != ScheduleStatus.overdue) {
       return slotTime?.format(context);
     }
 
@@ -164,8 +173,7 @@ class IntakeTileViewModel {
         return null;
 
       case ScheduleStatus.overdue:
-        final formatted = date.format(DateFormat.MMMMd(languageTag));
-        return "$formatted - ${_daysAgo(dateDifference)}";
+        return "$_dateAndTime - ${_daysAgo(dateDifference)}";
 
       case _:
         return null;
@@ -235,12 +243,12 @@ class IntakeTileViewModel {
         : Symbols.schedule_rounded;
 
     final backgroundColor =
-        _isDailySlot && slotTime!.isAfter(TimeOfDay.fromDateTime(now))
+        _hasScheduledTime && slotTime!.isAfter(TimeOfDay.fromDateTime(now))
             ? theme.colorScheme.secondaryContainer
             : theme.colorScheme.primaryContainer;
 
     final iconColor =
-        _isDailySlot && slotTime!.isAfter(TimeOfDay.fromDateTime(now))
+        _hasScheduledTime && slotTime!.isAfter(TimeOfDay.fromDateTime(now))
             ? theme.colorScheme.onSecondaryContainer
             : theme.colorScheme.onPrimaryContainer;
 
