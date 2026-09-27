@@ -1,3 +1,5 @@
+import 'package:mona/services/db/db_tables.dart';
+
 const int oldestImportableVersion = 4;
 
 const String _supplyItemsV4 = '''
@@ -576,6 +578,14 @@ const Map<int, List<String>> _historicalSchemas = {
     _medicationIntakesV22,
     _medicationSchedulesV22,
     _bloodTestsV20,
+  ],
+  23: [
+    _supplyItemsV21,
+    _medicationIntakesV22,
+    _medicationSchedulesV22,
+    _bloodTestsV20,
+    createWearStateTable,
+    createWearCommandsTable,
   ],
 };
 

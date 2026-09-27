@@ -53,7 +53,8 @@ void main() {
     when(mockPreferencesService.placementSuggestionPerSchedule)
         .thenReturn(false);
     manager = MedicationIntakeManager(mockMedicationIntakeProvider,
-        mockSupplyItemProvider, mockPreferencesService);
+        mockSupplyItemProvider, mockPreferencesService,
+        atomic: false);
   });
 
   group('MedicationIntakeManager', () {

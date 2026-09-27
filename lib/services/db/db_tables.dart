@@ -67,3 +67,21 @@ const String createBloodTestsTable = '''
       notes TEXT
     )
     ''';
+
+const String createWearStateTable = '''
+    CREATE TABLE wear_state(
+      singleton INTEGER PRIMARY KEY CHECK(singleton = 1),
+      datasetId TEXT NOT NULL,
+      revision INTEGER NOT NULL DEFAULT 0
+    )
+    ''';
+
+const String createWearCommandsTable = '''
+    CREATE TABLE wear_commands(
+      datasetId TEXT NOT NULL,
+      commandId TEXT NOT NULL,
+      digest TEXT NOT NULL,
+      receipt TEXT NOT NULL,
+      PRIMARY KEY(datasetId, commandId)
+    )
+    ''';

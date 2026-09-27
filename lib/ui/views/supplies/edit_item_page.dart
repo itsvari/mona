@@ -45,6 +45,7 @@ class _EditItemPageState extends State<EditItemPage> {
   late DosingBasis _dosingBasis;
   late PreferencesService _preferencesService;
   late SupplyItemProvider _supplyItemProvider;
+  bool _isSaving = false;
 
   String? get _nameError => SupplyItem.validateName(_nameController.text);
 
@@ -156,13 +157,18 @@ class _EditItemPageState extends State<EditItemPage> {
 
   void _refresh() => setState(() {});
 
-  void _saveChanges() {
-    if (!_isFormValid) return;
+  Future<void> _saveChanges() async {
+    if (!_isFormValid || _isSaving) return;
     if (!mounted) return;
 
     final dosePerUnit = _dosePerUnitController.text.toDecimal;
     final totalDose = dosePerUnit * _totalAmountController.text.toDecimal;
-    final usedDose = dosePerUnit * _usedAmountController.text.toDecimal;
+    final usedAmountUnchanged = dosePerUnit == widget.item.dosePerUnit &&
+        _usedAmountController.text ==
+            widget.item.getAmount(widget.item.usedDose).toString();
+    final usedDose = usedAmountUnchanged
+        ? widget.item.usedDose
+        : dosePerUnit * _usedAmountController.text.toDecimal;
     final ester = _useEsterField ? _ester : null;
     final dosingBasis = _supportsReleaseRate ? _dosingBasis : DosingBasis.mass;
 
@@ -177,9 +183,25 @@ class _EditItemPageState extends State<EditItemPage> {
       deliveryForm: _deliveryForm,
       dosingBasis: dosingBasis,
     );
-    _supplyItemProvider.updateItem(updatedItem);
-
-    Navigator.of(context).pop();
+    setState(() => _isSaving = true);
+    try {
+      final saved = await _supplyItemProvider.editMedicationItem(
+          widget.item, updatedItem);
+      if (!mounted) return;
+      if (saved) {
+        Navigator.of(context).pop();
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(t.supplyChanged)));
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(t.saveChangesFailed)));
+      }
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
   }
 
   Future<void> _confirmDelete() async {
@@ -235,7 +257,7 @@ class _EditItemPageState extends State<EditItemPage> {
       submitButtonLabel: t.save,
       submitButtonKey: const ValueKey('editItemSave'),
       deleteButtonKey: const ValueKey('editItemDelete'),
-      isFormValid: _isFormValid,
+      isFormValid: _isFormValid && !_isSaving,
       saveChanges: _saveChanges,
       onDelete: _confirmDelete,
       fields: [

@@ -244,8 +244,9 @@ class PreferencesService extends ChangeNotifier {
     notifyListeners();
   }
 
-  static Future<PreferencesService> init() async {
+  static Future<PreferencesService> init({bool reload = false}) async {
     final prefs = await SharedPreferences.getInstance();
+    if (reload) await prefs.reload();
     return PreferencesService._(prefs);
   }
 }

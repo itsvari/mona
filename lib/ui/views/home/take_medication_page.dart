@@ -32,8 +32,10 @@ class TakeMedicationPage extends StatefulWidget {
   final MedicationSchedule schedule;
 
   final TimeOfDay? scheduledTime;
+  final bool scheduledOccurrence;
 
-  TakeMedicationPage(this.schedule, {this.scheduledTime});
+  TakeMedicationPage(this.schedule,
+      {this.scheduledTime, this.scheduledOccurrence = false});
 
   @override
   State<TakeMedicationPage> createState() => _TakeMedicationPageState();
@@ -55,6 +57,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
   Decimal? _deadSpace;
   late TextEditingController _notesController;
   bool _isTaken = false;
+  bool _isSaving = false;
 
   Decimal? get _unitDose {
     if (widget.schedule.administrationRoute == AdministrationRoute.injection) {
@@ -82,28 +85,40 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
     SupplyItemProvider supplyItemProvider,
     PreferencesService preferencesService,
   ) async {
-    if (!_isFormValid || !mounted || _isTaken) return;
+    if (!_isFormValid || !mounted || _isTaken || _isSaving) return;
+    setState(() => _isSaving = true);
 
     final String? notes =
         _notesController.text.isEmpty ? null : _notesController.text;
 
-    MedicationIntakeManager(
-            medicationIntakeProvider, supplyItemProvider, preferencesService)
-        .takeMedication(
-            takenDose: _takenDose,
-            unitDose: _unitDose,
-            scheduledTime: widget.scheduledTime,
-            takenDateTime: _takenDate.toUtc(),
-            medicationItem: _selectedSupplyItem is MedicationSupplyItem
-                ? _selectedSupplyItem as MedicationSupplyItem
-                : null,
-            genericItems: _selectedGenerics,
-            schedule: widget.schedule,
-            placements: _selectedPlacements,
-            deadSpace: _deadSpace,
-            notes: notes,
-            wastedAmount: _wastedAmount);
-
+    try {
+      await MedicationIntakeManager(
+              medicationIntakeProvider, supplyItemProvider, preferencesService)
+          .takeMedication(
+              takenDose: _takenDose,
+              unitDose: _unitDose,
+              scheduledTime: widget.scheduledTime,
+              scheduledOccurrence: widget.scheduledOccurrence,
+              takenDateTime: _takenDate.toUtc(),
+              medicationItem: _selectedSupplyItem is MedicationSupplyItem
+                  ? _selectedSupplyItem as MedicationSupplyItem
+                  : null,
+              genericItems: _selectedGenerics,
+              schedule: widget.schedule,
+              placements: _selectedPlacements,
+              deadSpace: _deadSpace,
+              notes: notes,
+              wastedAmount: _wastedAmount);
+    } catch (_) {
+      if (mounted) {
+        setState(() => _isSaving = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(t.saveIntakeFailed)),
+        );
+      }
+      return;
+    }
+    if (!mounted) return;
     setState(() {
       _isTaken = true;
     });
@@ -242,7 +257,7 @@ class _TakeMedicationPageState extends State<TakeMedicationPage> {
           submitButtonIcon: _isTaken ? Symbols.check_circle_rounded : null,
           submitButtonKey: const ValueKey('takeIntakeSubmit'),
           isFormValid: _isFormValid,
-          saveChanges: (!isLoading && _isFormValid && !_isTaken)
+          saveChanges: (!isLoading && _isFormValid && !_isTaken && !_isSaving)
               ? () => _takeIntake(medicationIntakeProvider, supplyItemProvider,
                   preferencesService)
               : () {},

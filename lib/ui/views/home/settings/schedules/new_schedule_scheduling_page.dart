@@ -146,8 +146,9 @@ class _NewScheduleSchedulingPageState extends State<NewScheduleSchedulingPage> {
   String _doseLabel(TimeOfDay time) {
     final dose = _doseOverrides[time] ?? widget.dose;
     final strength = widget.unitDose;
-    if (strength == null)
+    if (strength == null) {
       return '$dose ${widget.molecule.localizedUnit(widget.dosingBasis)}';
+    }
     final quantity = (dose.toRational() / strength.toRational())
         .toDecimal(scaleOnInfinitePrecision: 3);
     return '$quantity ${widget.administrationRoute.localizedUnit(quantity.toDouble())}';

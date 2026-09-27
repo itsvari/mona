@@ -924,6 +924,18 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   /// en: 'Cannot exceed total capacity'
   String get cannotExceedTotalCapacity => 'Cannot exceed total capacity';
 
+  /// en: 'The dose could not be saved. Review the medication and supplies, then try again.'
+  String get saveIntakeFailed =>
+      'The dose could not be saved. Review the medication and supplies, then try again.';
+
+  /// en: 'This supply changed while you were editing. Reopen it before saving.'
+  String get supplyChanged =>
+      'This supply changed while you were editing. Reopen it before saving.';
+
+  /// en: 'Changes could not be saved. Please try again.'
+  String get saveChangesFailed =>
+      'Changes could not be saved. Please try again.';
+
   /// en: '(one) {{count} day ago} (other) {{count} days ago}'
   String daysAgoCount({required num count}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
@@ -1445,6 +1457,11 @@ extension on Translations {
       'mustBeAtMost' => ({required Object max}) => 'Must be at most ${max}',
       'invalidTotalAmount' => 'Invalid total amount',
       'cannotExceedTotalCapacity' => 'Cannot exceed total capacity',
+      'saveIntakeFailed' =>
+        'The dose could not be saved. Review the medication and supplies, then try again.',
+      'supplyChanged' =>
+        'This supply changed while you were editing. Reopen it before saving.',
+      'saveChangesFailed' => 'Changes could not be saved. Please try again.',
       'daysAgoCount' => ({required num count}) =>
           (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
             count,

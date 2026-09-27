@@ -6,6 +6,7 @@ import 'package:mona/services/repository.dart';
 class MedicationScheduleProvider extends ChangeNotifier {
   List<MedicationSchedule> _schedules = [];
   bool _isLoading = true;
+  late final Future<void> ready;
   final Repository<MedicationSchedule> repository;
   final PreferencesService preferences;
 
@@ -24,7 +25,7 @@ class MedicationScheduleProvider extends ChangeNotifier {
     required this.preferences,
     Repository<MedicationSchedule>? repository,
   }) : repository = repository ?? _defaultRepository {
-    _init();
+    ready = _init();
   }
 
   Future<void> _init() async {

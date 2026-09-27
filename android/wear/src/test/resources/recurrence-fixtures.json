@@ -1,0 +1,1801 @@
+[
+  {
+    "name": "daily",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "daily",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-01-01",
+          "recurrence": {
+            "type": "daily",
+            "notify": true,
+            "times": [
+              480,
+              1200
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "9f91be11ef07b83cf7e1b20d8f7db31e1bc86aac94e7477a631f92355155eae3"
+        }
+      ],
+      "history": [],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 480,
+        "at": 1790150400000,
+        "dose": "2"
+      },
+      {
+        "minute": 1200,
+        "at": 1790193600000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "daily_taken",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "daily_taken",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-01-01",
+          "recurrence": {
+            "type": "daily",
+            "notify": true,
+            "times": [
+              480,
+              1200
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "458460131fdcb82a4610bc039289013a74416b5a53a381406338022b3401b6fa"
+        }
+      ],
+      "history": [
+        {
+          "id": "2",
+          "scheduleId": "1",
+          "dose": "2",
+          "unit": "mg",
+          "at": 1790146800000,
+          "zoneId": "UTC",
+          "scheduledMinute": 480,
+          "logicalDate": "2026-09-23"
+        }
+      ],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 1200,
+        "at": 1790193600000,
+        "dose": "2"
+      },
+      {
+        "minute": 480,
+        "at": 1790236800000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "daily_logical_day",
+    "now": 1790125200000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790125200000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "daily_logical_day",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-01-01",
+          "recurrence": {
+            "type": "daily",
+            "notify": true,
+            "times": [
+              120
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "4dddf3150955afee4427aa55415d5796d1ce2d3bfc8bf6bdc2d39a5ee3fc0e36"
+        }
+      ],
+      "history": [],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 120,
+        "at": 1790128800000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "fixed_interval",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "fixed_interval",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-09-20",
+          "recurrence": {
+            "type": "intervalDays",
+            "intervalDays": 3,
+            "notify": true,
+            "times": [
+              480,
+              1200
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "bc620ba03816fab6b886e0f507328c03b6467fd020939f80ce494ab0adf6b156"
+        }
+      ],
+      "history": [],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 480,
+        "at": 1790150400000,
+        "dose": "2"
+      },
+      {
+        "minute": 1200,
+        "at": 1790193600000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "fixed_interval_taken",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "fixed_interval_taken",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-09-20",
+          "recurrence": {
+            "type": "intervalDays",
+            "intervalDays": 3,
+            "notify": true,
+            "times": [
+              480,
+              1200
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "aeb8ffbd0ac2cdd39290330d9d8a81e0fefb5ab6f968fa09a593c2d2daea6316"
+        }
+      ],
+      "history": [
+        {
+          "id": "2",
+          "scheduleId": "1",
+          "dose": "2",
+          "unit": "mg",
+          "at": 1790146800000,
+          "zoneId": "UTC",
+          "scheduledMinute": null,
+          "logicalDate": "2026-09-23"
+        }
+      ],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 480,
+        "at": 1790409600000,
+        "dose": "2"
+      },
+      {
+        "minute": 1200,
+        "at": 1790452800000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "fixed_interval_split",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "fixed_interval_split",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-09-20",
+          "recurrence": {
+            "type": "intervalDays",
+            "intervalDays": 3,
+            "notify": true,
+            "times": [
+              480,
+              1200
+            ]
+          },
+          "doseOverrides": [
+            {
+              "minute": 1200,
+              "dose": "3"
+            }
+          ],
+          "revision": "a2414ae645d57142ba7ac4312d45b19916812312e77d5171640e535595323b66"
+        }
+      ],
+      "history": [
+        {
+          "id": "2",
+          "scheduleId": "1",
+          "dose": "2",
+          "unit": "mg",
+          "at": 1790146800000,
+          "zoneId": "UTC",
+          "scheduledMinute": 480,
+          "logicalDate": "2026-09-23"
+        }
+      ],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 1200,
+        "at": 1790193600000,
+        "dose": "3"
+      },
+      {
+        "minute": 480,
+        "at": 1790409600000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "dynamic_initial",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "dynamic_initial",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-09-23",
+          "recurrence": {
+            "type": "dynamicInterval",
+            "intervalDays": 5,
+            "notify": true,
+            "times": [
+              480
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "d69e44c44ed2bfd6cd16f54b8073314f9cb30e45b071aac46a892b527b788d88"
+        }
+      ],
+      "history": [],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 480,
+        "at": 1790150400000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "dynamic_taken",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "dynamic_taken",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-09-20",
+          "recurrence": {
+            "type": "dynamicInterval",
+            "intervalDays": 5,
+            "notify": true,
+            "times": [
+              480,
+              1200
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "d0b4407ee537226f6508958c6eb2927544d7c2748074474da60291e788e65532"
+        }
+      ],
+      "history": [
+        {
+          "id": "2",
+          "scheduleId": "1",
+          "dose": "2",
+          "unit": "mg",
+          "at": 1790146800000,
+          "zoneId": "UTC",
+          "scheduledMinute": null,
+          "logicalDate": "2026-09-23"
+        }
+      ],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 480,
+        "at": 1790582400000,
+        "dose": "2"
+      },
+      {
+        "minute": 1200,
+        "at": 1790625600000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "dynamic_split",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "dynamic_split",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-09-23",
+          "recurrence": {
+            "type": "dynamicInterval",
+            "intervalDays": 5,
+            "notify": true,
+            "times": [
+              480,
+              1200
+            ]
+          },
+          "doseOverrides": [
+            {
+              "minute": 1200,
+              "dose": "3"
+            }
+          ],
+          "revision": "115498e84a614e09f900cc2f16955eff7d9c4a8cf6feff07767ca2d4b3d26196"
+        }
+      ],
+      "history": [
+        {
+          "id": "2",
+          "scheduleId": "1",
+          "dose": "2",
+          "unit": "mg",
+          "at": 1790146800000,
+          "zoneId": "UTC",
+          "scheduledMinute": 480,
+          "logicalDate": "2026-09-23"
+        }
+      ],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 1200,
+        "at": 1790193600000,
+        "dose": "3"
+      },
+      {
+        "minute": 480,
+        "at": 1790582400000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "weekly",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "weekly",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-01-01",
+          "recurrence": {
+            "type": "weekly",
+            "weekdays": [
+              1,
+              3,
+              5
+            ],
+            "notify": true,
+            "times": [
+              480,
+              1200
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "e354a33d9232de8eb20eadc8a48bd5874f3044c798d58fda716d4088bf0451a4"
+        }
+      ],
+      "history": [],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 480,
+        "at": 1790150400000,
+        "dose": "2"
+      },
+      {
+        "minute": 1200,
+        "at": 1790193600000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "weekly_taken",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "weekly_taken",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-01-01",
+          "recurrence": {
+            "type": "weekly",
+            "weekdays": [
+              1,
+              3,
+              5
+            ],
+            "notify": true,
+            "times": [
+              480,
+              1200
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "38dafd2621c7548f71d56a85a735815bd3b8f0b2a8a218ed03d2db56509eb572"
+        }
+      ],
+      "history": [
+        {
+          "id": "2",
+          "scheduleId": "1",
+          "dose": "2",
+          "unit": "mg",
+          "at": 1790146800000,
+          "zoneId": "UTC",
+          "scheduledMinute": null,
+          "logicalDate": "2026-09-23"
+        }
+      ],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 480,
+        "at": 1790323200000,
+        "dose": "2"
+      },
+      {
+        "minute": 1200,
+        "at": 1790366400000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "monthly_interval",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "monthly_interval",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-01-29",
+          "recurrence": {
+            "type": "monthly",
+            "dayOfMonth": 28,
+            "intervalMonths": 2,
+            "notify": true,
+            "times": [
+              480
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "b3852a39b9371270c402c7da8746597fbd4ba839870332928042195f3f6da4cb"
+        }
+      ],
+      "history": [],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 480,
+        "at": 1793174400000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "future_start",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "future_start",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2027-01-01",
+          "recurrence": {
+            "type": "daily",
+            "notify": true,
+            "times": [
+              480
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "57023a5091383a24ee11756c007d185d06e5d5d0956b9b5fd8d5f5cae69a8766"
+        }
+      ],
+      "history": [],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": [
+      {
+        "minute": 480,
+        "at": 1798790400000,
+        "dose": "2"
+      }
+    ]
+  },
+  {
+    "name": "disabled",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "disabled",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-01-01",
+          "recurrence": {
+            "type": "daily",
+            "notify": false,
+            "times": [
+              480
+            ]
+          },
+          "doseOverrides": [],
+          "revision": "1ad874e27592ba3c8e86efadfda24e97ba75d9350031c49ea05215a2e5135f89"
+        }
+      ],
+      "history": [],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": []
+  },
+  {
+    "name": "as_needed",
+    "now": 1790146800000,
+    "zoneId": "UTC",
+    "snapshot": {
+      "version": 1,
+      "datasetId": "00000000-0000-4000-8000-000000000001",
+      "revision": 1,
+      "generatedAt": 1790146800000,
+      "zoneId": "UTC",
+      "logicalDayStartMinutes": 240,
+      "notificationsEnabled": true,
+      "schedules": [
+        {
+          "id": "1",
+          "name": "as_needed",
+          "dose": "2",
+          "unitDose": null,
+          "moleculeName": "estradiol",
+          "unit": "mg",
+          "route": "oral",
+          "ester": null,
+          "startDate": "2026-01-01",
+          "recurrence": {
+            "type": "asNeeded",
+            "notify": false,
+            "times": []
+          },
+          "doseOverrides": [],
+          "revision": "e1de80cef73062ffa2a22ecb15b631adfd7123ee21d41dc5fb998144897bd258"
+        }
+      ],
+      "history": [],
+      "supplies": [],
+      "molecules": [
+        {
+          "name": "estradiol",
+          "unit": "mg"
+        },
+        {
+          "name": "progesterone",
+          "unit": "mg"
+        },
+        {
+          "name": "testosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "nandrolone",
+          "unit": "mg"
+        },
+        {
+          "name": "dihydrotestosterone",
+          "unit": "mg"
+        },
+        {
+          "name": "spironolactone",
+          "unit": "mg"
+        },
+        {
+          "name": "cyproterone acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "leuprorelin acetate",
+          "unit": "mg"
+        },
+        {
+          "name": "bicalutamide",
+          "unit": "mg"
+        },
+        {
+          "name": "decapeptyl",
+          "unit": "mg"
+        },
+        {
+          "name": "Raloxifene",
+          "unit": "mg"
+        },
+        {
+          "name": "Tamoxifen",
+          "unit": "mg"
+        },
+        {
+          "name": "finasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "dutasteride",
+          "unit": "mg"
+        },
+        {
+          "name": "minoxidil",
+          "unit": "mg"
+        },
+        {
+          "name": "pioglitazone",
+          "unit": "mg"
+        }
+      ]
+    },
+    "nextReminders": []
+  }
+]

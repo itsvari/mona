@@ -6,6 +6,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:mona/distribution.dart';
 import 'package:mona/services/db/app_database.dart';
 import 'package:mona/services/db/historical_schemas.dart';
+import 'package:mona/services/wear/wear_bridge.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -135,6 +136,9 @@ class BackupService {
 
     final dataSection = backupData['data'] as Map<String, dynamic>;
     for (final entry in dataSection.entries) {
+      if (!_tables.contains(entry.key)) {
+        throw const FormatException('Invalid backup: unknown table');
+      }
       if (entry.value != null && entry.value is! List) {
         throw FormatException('Invalid backup: ${entry.key} must be a list');
       }
@@ -181,7 +185,14 @@ class BackupService {
     final Map<String, dynamic> backupData = jsonDecode(jsonString);
 
     _validateBackup(backupData);
-    await _processImport(backupData);
+    await WearBridge.beginImport();
+    try {
+      await _processImport(backupData);
+      // Backups omit the sync ledger and identity, so restored data starts a new dataset.
+      await AppDatabase.getInstance().database;
+    } finally {
+      await WearBridge.endImport();
+    }
     return true;
   }
 }

@@ -56,6 +56,7 @@ class IntakeTile extends StatelessWidget {
                   : TakeMedicationPage(
                       schedule,
                       scheduledTime: slot.time,
+                      scheduledOccurrence: true,
                     ),
             ),
           );

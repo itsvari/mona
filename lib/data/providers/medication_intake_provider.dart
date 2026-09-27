@@ -11,11 +11,12 @@ class MedicationIntakeProvider extends ChangeNotifier {
   List<MedicationIntake> _intakes = [];
   List<MedicationIntake> _takenIntakesSortedDesc = [];
   bool _isLoading = true;
+  late final Future<void> ready;
   final Repository<MedicationIntake> repository;
 
   MedicationIntakeProvider({Repository<MedicationIntake>? repository})
       : repository = repository ?? _medicationIntakeRepository {
-    _init();
+    ready = _init();
   }
 
   bool get isLoading => _isLoading;

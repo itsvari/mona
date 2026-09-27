@@ -16,6 +16,7 @@ import 'package:mona/services/db/upgrade/v2.dart';
 import 'package:mona/services/db/upgrade/v20.dart';
 import 'package:mona/services/db/upgrade/v21.dart';
 import 'package:mona/services/db/upgrade/v22.dart';
+import 'package:mona/services/db/upgrade/v23.dart';
 import 'package:mona/services/db/upgrade/v3.dart';
 import 'package:mona/services/db/upgrade/v4.dart';
 import 'package:mona/services/db/upgrade/v5.dart';
@@ -26,7 +27,7 @@ import 'package:mona/services/db/upgrade/v9.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-const int currentDatabaseVersion = 22;
+const int currentDatabaseVersion = 23;
 
 final Map<int, DbUpgrade> _upgrades = {
   2: DbUpgradeV2(),
@@ -50,6 +51,7 @@ final Map<int, DbUpgrade> _upgrades = {
   20: DbUpgradeV20(),
   21: DbUpgradeV21(),
   22: DbUpgradeV22(),
+  23: DbUpgradeV23(),
 };
 
 class AppDatabase {
@@ -58,11 +60,13 @@ class AppDatabase {
   static AppDatabase? _instance;
   static Database? _database;
   final bool inMemory;
+  final bool background;
 
-  AppDatabase._init({required this.inMemory});
+  AppDatabase._init({required this.inMemory, required this.background});
 
-  static AppDatabase getInstance({bool inMemory = false}) {
-    _instance ??= AppDatabase._init(inMemory: inMemory);
+  static AppDatabase getInstance(
+      {bool inMemory = false, bool background = false}) {
+    _instance ??= AppDatabase._init(inMemory: inMemory, background: background);
     return _instance!;
   }
 
@@ -118,6 +122,7 @@ class AppDatabase {
     return await openDatabase(
       await filePath(),
       version: currentDatabaseVersion,
+      singleInstance: !background,
       onCreate: _createDB,
       onUpgrade: applyAppUpgrades,
       onOpen: _onOpen,
@@ -133,6 +138,8 @@ class AppDatabase {
     await db.execute(createMedicationSchedulesTable);
     await db.execute(createMedicationIntakesTable);
     await db.execute(createBloodTestsTable);
+    await db.execute(createWearStateTable);
+    await db.execute(createWearCommandsTable);
   }
 
   Future<void> applyAppUpgrades(

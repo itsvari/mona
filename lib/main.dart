@@ -20,10 +20,15 @@ import 'package:mona/data/providers/supply_item_provider.dart';
 import 'package:mona/data/providers/today_provider.dart';
 import 'package:mona/i18n/locale_provider.dart';
 import 'package:mona/services/preferences_service.dart';
+import 'package:mona/services/wear/wear_bridge.dart';
 import 'package:mona/theme/app_theme_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
+
 import 'app.dart';
+
+@pragma('vm:entry-point')
+void wearBackgroundMain() => runWearBackground();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

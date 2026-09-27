@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:mona/data/model/administration_route.dart';
 import 'package:mona/data/model/ester.dart';
@@ -10,6 +11,7 @@ import 'package:mona/services/repository.dart';
 class SupplyItemProvider extends ChangeNotifier {
   List<SupplyItem> _items = [];
   bool _isLoading = true;
+  late final Future<void> ready;
   final Repository<SupplyItem> repository;
 
   static final defaultRepository = Repository<SupplyItem>(
@@ -55,7 +57,7 @@ class SupplyItemProvider extends ChangeNotifier {
 
   SupplyItemProvider({Repository<SupplyItem>? repository})
       : repository = repository ?? defaultRepository {
-    _init();
+    ready = _init();
   }
 
   Future<void> _init() async {
@@ -106,6 +108,21 @@ class SupplyItemProvider extends ChangeNotifier {
     final id = await repository.insert(supplyItem);
     await fetchItems();
     return _items.firstWhere((item) => item.id == id);
+  }
+
+  Future<bool> editMedicationItem(
+      MedicationSupplyItem original, MedicationSupplyItem edited) async {
+    final saved = await repository.updateFromCurrent(original.id, (current) {
+      if (current is! MedicationSupplyItem ||
+          current.copyWith(usedDose: original.usedDose) != original) {
+        return null;
+      }
+      final usedDose = edited.usedDose + current.usedDose - original.usedDose;
+      if (usedDose < Decimal.zero || usedDose > edited.totalDose) return null;
+      return edited.copyWith(usedDose: usedDose);
+    });
+    if (saved) await fetchItems();
+    return saved;
   }
 
   Future<void> updateItem(SupplyItem item) async {

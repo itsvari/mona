@@ -328,5 +328,8 @@
   "mustBeBetween1And28": "Must be between 1 and 28",
   "mustBeAtMost": "Must be at most {{max}}",
   "invalidTotalAmount": "Invalid total amount",
-  "cannotExceedTotalCapacity": "Cannot exceed total capacity"
+  "cannotExceedTotalCapacity": "Cannot exceed total capacity",
+  "saveIntakeFailed": "The dose could not be saved. Review the medication and supplies, then try again.",
+  "supplyChanged": "This supply changed while you were editing. Reopen it before saving.",
+  "saveChangesFailed": "Changes could not be saved. Please try again."
 }
